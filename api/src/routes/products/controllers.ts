@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { eq } from "drizzle-orm";
 import { Request, Response } from "express";
 
@@ -37,7 +38,7 @@ export const createProduct = async (req: Request, res: Response) => {
   try {
     const [product] = await db
       .insert(productsTable)
-      .values(req.body)
+      .values(req.cleanBody)
       .returning();
 
     res.status(201).json(product);
@@ -49,7 +50,7 @@ export const createProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const updatedFields = req.body;
+    const updatedFields = req.cleanBody;
 
     const [updatedProduct] = await db
       .update(productsTable)
