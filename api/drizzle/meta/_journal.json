@@ -15,6 +15,13 @@
       "when": 1728983662940,
       "tag": "0001_aromatic_captain_universe",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729072326243,
+      "tag": "0002_round_infant_terrible",
+      "breakpoints": true
     }
   ]
 }
