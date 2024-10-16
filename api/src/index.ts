@@ -18,10 +18,10 @@ app.use("/auth", authRoutes);
 app.use("/orders", ordersRoutes);
 app.use("/products", productsRoutes);
 
-// if (process.env.NODE_ENV === "dev") {
+if (process.env.NODE_ENV === "dev") {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 // }
 
-// export const handler = serverless(app);
+export const handler = serverless(app);
