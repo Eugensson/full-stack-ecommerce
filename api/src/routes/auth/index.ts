@@ -3,9 +3,13 @@ import jwt from "jsonwebtoken";
 import { Router } from "express";
 import { eq } from "drizzle-orm";
 
-import { db } from "../../db";
-import { validateData } from "../../middlewares/validationMiddleware";
-import { registerSchema, loginSchema, usersTable } from "../../db/usersSchema";
+import { db } from "../../db/index.js";
+import { validateData } from "../../middlewares/validationMiddleware.js";
+import {
+  registerSchema,
+  loginSchema,
+  usersTable,
+} from "../../db/usersSchema.js";
 
 const router = Router();
 

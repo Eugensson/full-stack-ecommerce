@@ -6,13 +6,13 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-} from "./controllers";
+} from "./controllers.js";
 import {
   createProductSchema,
   updateProductSchema,
-} from "../../db/productsSchema";
-import { verifySeller, verifyToken } from "../../middlewares/authMiddleware";
-import { validateData } from "../../middlewares/validationMiddleware";
+} from "../../db/productsSchema.js";
+import { verifySeller, verifyToken } from "../../middlewares/authMiddleware.js";
+import { validateData } from "../../middlewares/validationMiddleware.js";
 
 const router = Router();
 
