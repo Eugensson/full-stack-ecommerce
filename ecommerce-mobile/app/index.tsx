@@ -1,6 +1,6 @@
 import { FlatList } from "react-native";
 
-import products from "../assets/products.json";
+import products from "@/assets/products.json";
 import { ProductListItem } from "../components/product-list-item";
 
 const HomeScreen = () => {
