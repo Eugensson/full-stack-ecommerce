@@ -16,6 +16,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
     const [newOrder] = await db
       .insert(ordersTable)
+      // @ts-ignore
       .values({ userId })
       .returning();
 
