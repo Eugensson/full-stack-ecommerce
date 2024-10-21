@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Redirect } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 
@@ -19,16 +20,29 @@ const LoginScreen = () => {
 
   const setUser = useAuthStore((s) => s.setUser);
   const setToken = useAuthStore((s) => s.setToken);
+  const isLoggedIn = useAuthStore((s) => !!s.token);
 
   const loginMutation = useMutation({
     mutationFn: () => login(email, password),
-    onSuccess: (data) => console.log("Success login: ", data),
+    onSuccess: (data) => {
+      console.log("Success login: ", data);
+      if (data.user && data.token) {
+        setUser(data.user);
+        setToken(data.token);
+      }
+    },
     onError: (error) => console.log("Error: ", error),
   });
 
   const signUpMutation = useMutation({
     mutationFn: () => signUp(email, password),
-    onSuccess: (data) => console.log("Success sign up: ", data),
+    onSuccess: (data) => {
+      console.log("Success sign up: ", data);
+      if (data.user && data.token) {
+        setUser(data.user);
+        setToken(data.token);
+      }
+    },
     onError: (error) => console.log("Error: ", error),
   });
 
@@ -37,6 +51,8 @@ const LoginScreen = () => {
       return !showState;
     });
   };
+
+  if (isLoggedIn) return <Redirect href="/" />;
 
   return (
     <FormControl

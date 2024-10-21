@@ -8,6 +8,7 @@ import "@/global.css";
 
 import { Icon } from "@/components/ui/icon";
 import { useCartStore } from "@/store/cart-store";
+import { useAuthStore } from "@/store/auth-store";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 
 const queryClient = new QueryClient();
@@ -15,29 +16,38 @@ const queryClient = new QueryClient();
 const RootLayout = () => {
   const cartItemsNumber = useCartStore((state) => state.items.length);
 
+  const isLoggedIn = useAuthStore((s) => !!s.token);
+
   return (
     <QueryClientProvider client={queryClient}>
       <GluestackUIProvider>
         <Stack
           screenOptions={{
-            headerLeft: () => (
-              <Link href="/login" className="mr-10" asChild>
-                <Pressable>
-                  <Icon as={User} />
-                </Pressable>
-              </Link>
-            ),
-            headerRight: () => (
-              <Link href="/cart" asChild>
-                <Pressable className="flex-row items-center gap-2">
-                  <Icon as={ShoppingCart} />
-                  <Text>{cartItemsNumber}</Text>
-                </Pressable>
-              </Link>
-            ),
+            headerRight: () =>
+              cartItemsNumber > 0 && (
+                <Link href={"/cart"} asChild>
+                  <Pressable className="flex-row gap-2">
+                    <Icon as={ShoppingCart} />
+                    <Text>{cartItemsNumber}</Text>
+                  </Pressable>
+                </Link>
+              ),
           }}
         >
-          <Stack.Screen name="index" options={{ title: "Shop" }} />
+          <Stack.Screen
+            name="index"
+            options={{
+              title: "Shop",
+              headerLeft: () =>
+                !isLoggedIn && (
+                  <Link href="/login" className="mr-12" asChild>
+                    <Pressable>
+                      <Icon as={User} />
+                    </Pressable>
+                  </Link>
+                ),
+            }}
+          />
           <Stack.Screen name="product/[id]" options={{ title: "Product" }} />
         </Stack>
       </GluestackUIProvider>
