@@ -13,6 +13,12 @@ import {
 
 const router = Router();
 
+const generateUserToken = (user: any) => {
+  return jwt.sign({ userId: user.id, role: user.role }, "your-secret", {
+    expiresIn: "30d",
+  });
+};
+
 router.post("/register", validateData(registerSchema), async (req, res) => {
   try {
     const data = req.cleanBody;
@@ -20,7 +26,11 @@ router.post("/register", validateData(registerSchema), async (req, res) => {
 
     const [user] = await db.insert(usersTable).values(data).returning();
 
-    res.status(201).json(user);
+    // @ts-ignore
+    delete user.password;
+    const token = generateUserToken(user);
+
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -47,13 +57,11 @@ router.post("/login", validateData(loginSchema), async (req, res) => {
       return;
     }
 
-    const token = jwt.sign(
-      { userId: user.id, role: user.role },
-      "your-secret",
-      { expiresIn: "23h" }
-    );
+    const token = generateUserToken(user);
+    // @ts-ignore
+    delete user.password;
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).send(err);
   }
