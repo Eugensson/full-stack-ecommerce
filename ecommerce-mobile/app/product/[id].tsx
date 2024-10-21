@@ -9,10 +9,18 @@ import { Image } from "@/components/ui/image";
 import { getProductById } from "@/api/products";
 import { VStack } from "@/components/ui/vstack";
 import { Heading } from "@/components/ui/heading";
+import { useCartStore } from "@/store/cart-store";
 import { Button, ButtonText } from "@/components/ui/button";
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  const addProduct = useCartStore((state) => state.addProduct);
+  const cartItems = useCartStore((state) => state.items);
+
+  const addToCart = () => {
+    addProduct(product);
+  };
 
   const {
     data: product,
@@ -47,7 +55,7 @@ const ProductDetailsScreen = () => {
           <Text size="sm">{product.description}</Text>
         </VStack>
         <Box className="flex-col sm:flex-row">
-          <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
+          <Button onPress={addToCart}>
             <ButtonText size="sm">Add to cart</ButtonText>
           </Button>
           <Button
