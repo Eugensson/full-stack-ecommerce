@@ -1,14 +1,14 @@
 import { Text } from "react-native";
+import { Pressable } from "react-native";
 import { Link, Stack } from "expo-router";
-import { ShoppingCart } from "lucide-react-native";
+import { ShoppingCart, User } from "lucide-react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "@/global.css";
 
 import { Icon } from "@/components/ui/icon";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
-import { Pressable } from "react-native";
 import { useCartStore } from "@/store/cart-store";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +20,13 @@ const RootLayout = () => {
       <GluestackUIProvider>
         <Stack
           screenOptions={{
+            headerLeft: () => (
+              <Link href="/login" className="mr-10" asChild>
+                <Pressable>
+                  <Icon as={User} />
+                </Pressable>
+              </Link>
+            ),
             headerRight: () => (
               <Link href="/cart" asChild>
                 <Pressable className="flex-row items-center gap-2">
